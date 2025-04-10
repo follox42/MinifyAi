@@ -2,6 +2,12 @@
 
 MinifyKit is a flexible Python library designed to minify source code in different programming languages. Minification reduces file size by removing spaces, comments, and other non-essential characters while preserving code functionality.
 
+## Disclaimer
+
+- **MinifyKit** is designed to minify files (JavaScript, CSS, HTML, etc.), but it can also delete certain files during operations like `clean` or `minify`.
+- **Use with caution** and ensure you have backups of your files before running commands.
+- **Do not use on critical files** without making backups first.
+
 ## Features
 
 - Extensible and modular architecture
@@ -76,7 +82,8 @@ file_processor = FileProcessor()
 # Create a project minifier
 project_minifier = ProjectMinifier(registry, file_processor)
 
-# Clear the entire project exactly as it minify it. Or you can specify the extensions like this project_minifier.delete_minified_files(extensions=[".py", ".js"])
+# Clear the entire project exactly as it minify it.
+# Or you can specify the extensions like this project_minifier.delete_minified_files(extensions=[".py", ".js"])
 project_minifier.delete_minified_files()
 ```
 

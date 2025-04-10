@@ -57,6 +57,29 @@ project_minifier = ProjectMinifier(registry, file_processor)
 project_minifier.minify_project("./my_project", languages=["python", "javascript"])
 ```
 
+### Clear the Entire Project
+
+```python
+from minifykit.project.minify import ProjectMinifier
+from minifykit.project.registry import MinifierRegistry
+from minifykit.file.processor import FileProcessor
+from minifykit.core.languages import PythonMinifier, JavaScriptMinifier
+
+# Create a minifier registry and register language minifiers
+registry = MinifierRegistry()
+registry.register_minifier(PythonMinifier())
+registry.register_minifier(JavaScriptMinifier())
+
+# Create a file processor
+file_processor = FileProcessor()
+
+# Create a project minifier
+project_minifier = ProjectMinifier(registry, file_processor)
+
+# Clear the entire project exactly as it minify it. Or you can specify the extensions like this project_minifier.delete_minified_files(extensions=[".py", ".js"])
+project_minifier.delete_minified_files()
+```
+
 ## Architecture
 
 MinifyKit follows several design principles:

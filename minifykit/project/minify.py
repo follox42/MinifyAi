@@ -25,7 +25,7 @@ class ProjectMinifier:
         self.file_processor = file_processor
         self.files_to_skip = files_to_skip or ["__pycache__"]
     
-    def minify_project(self, root_dir: str,
+    def minify_project(self, root_dir: Optional[str] = None,
                       languages: Optional[List[str]] = None, 
                       extensions: Optional[List[str]] = None,
                       suffix: str = ".min", files_to_skip = None) -> Tuple[int, int]:
@@ -41,6 +41,10 @@ class ProjectMinifier:
         Returns:
             Tuple[int, int]: The number of processed and skipped files.
         """
+        if root_dir is None:
+            root_dir = os.getcwd()
+            print(f"No root directory specified. Using current directory: {root_dir}")
+        
         if files_to_skip:
             self.files_to_skip.extend(files_to_skip)
 
@@ -92,7 +96,8 @@ class ProjectMinifier:
         print(f"✅ Minification complete! Processed {processed} files, skipped {skipped} already minified files.")
         return processed, skipped
     
-    def delete_minified_files(self, root_dir: str, suffix: str = ".min", 
+    def delete_minified_files(self, root_dir: str = None, suffix: str = ".min", 
+                            languages: Optional[List[str]] = None,
                             extensions: Optional[List[str]] = None) -> int:
         """
         Delete all minified files in a project.
@@ -101,12 +106,21 @@ class ProjectMinifier:
             root_dir (str): The root directory of the project.
             suffix (str): Suffix of minified files.
             extensions (Optional[List[str]]): List of extensions to delete (e.g., ['.py', '.js']).
+            languages (Optional[List[str]]): List of languages to delete (e.g., ['python', 'javascript']).
             
         Returns:
             int: The number of deleted files.
         """
         count = 0
         
+        if root_dir is None:
+            root_dir = os.getcwd()
+            print(f"No root directory specified. Using current directory: {root_dir}")
+            
+        extensions_to_process = self._get_extensions_to_process(languages, extensions)
+
+        print(f"🔍 Processing to delete file types: {', '.join(extensions_to_process)}")
+
         for foldername, subfolders, filenames in os.walk(root_dir):
             for filename in filenames:
                 file_path = os.path.join(foldername, filename)
@@ -116,7 +130,7 @@ class ProjectMinifier:
                 # Check if file is a minified file (contains the suffix)
                 if suffix in filename:
                     # If extensions are specified, check if file matches any of them
-                    if extensions is None or file_ext in extensions:
+                    if file_ext in extensions_to_process:
                         try:
                             self.file_processor.delete_file(file_path)
                             count += 1

@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "minifykit"
+version = "0.0.1"
+authors = [
+  { name="Follox", email="Follox@Shosai.fr" },
+]
+description = "A library for minifying source code files"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Development Status :: 3 - Alpha",
+    "Topic :: Software Development :: Build Tools",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+dependencies = [
+  "docopt>=0.6.2"
+]
+
+[project.urls]
+Homepage = "https://github.com/follox42/MinifyKit"
+Issues = "https://github.com/follox42/MinifyKit/issues"
+Repository = "https://github.com/follox42/MinifyKit.git"
+
+[project.scripts]
+minifykit = "minifykit.cli:main"
+
+[tool.pytest]
+testpaths = ["tests"]
